@@ -1,0 +1,17 @@
+.venv/
+.pytest_cache/
+__pycache__/
+site/
+/test/
+node_modules/
+/.idea/
+.next/
+.venv/
+session/
+.env
+reactapp/.env
+fastApiProject/.env
+/nginx/
+/certificates/
+credentials.json
+.vscode/

@@ -1,0 +1,29 @@
+name: staging_deployment
+
+on:
+  push:
+    branches:
+      - "staging"
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup SSH
+        uses: webfactory/ssh-agent@v0.9.0
+        with:
+          ssh-private-key: ${{ secrets.OVH_SSH_ACTIONS }}
+
+      - name: Deploy application via SSH
+        run: |
+          ssh -o StrictHostKeyChecking=no debian@79.137.10.30 << 'EOF'
+            cd managia-website
+            git fetch --prune
+            git pull
+            docker compose down
+            docker compose up --build -d 
+          EOF

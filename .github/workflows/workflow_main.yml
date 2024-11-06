@@ -1,0 +1,72 @@
+name: docker_test
+
+on:
+  pull_request:
+    branches:
+      - "main"
+      - "staging"
+
+jobs:
+
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Set up node.js
+      uses: actions/setup-node@v4
+      
+    - name: Install dependencies
+      run: cd reactapp && npm install && npm run build
+
+    - name: Set up .env root
+      run: |
+        echo "MONGO_USERNAME=${{ secrets.MONGO_USERNAME }}" >> .env
+        echo "MONGO_PASSWORD=${{ secrets.MONGO_PASSWORD }}" >> .env
+        echo "MONGO_DATABASE=${{ secrets.MONGO_DATABASE }}" >> .env
+        echo "NODE_ENV=${{ secrets.NODE_ENV }}" >> .env
+
+    - name: Set up .env fastApiProject
+      run: |
+        cd fastApiProject
+        touch .env
+        echo "OPENAI_KEY=${{ secrets.OPENAI_KEY }}" >> .env
+        echo "REPLICATE_API_TOKEN=${{ secrets.REPLICATE_API_TOKEN }}" >> .env
+        echo "GOOGLE_API_KEY=${{ secrets.GOOGLE_API_KEY }}" >> .env
+        echo "SECRET_KEY=${{ secrets.SECRET_KEY }}" >> .env
+        echo "ALGORITHM=${{ secrets.ALGORITHM }}" >> .env
+        echo "ACCESS_TOKEN_EXPIRE_MINUTES=${{ secrets.ACCESS_TOKEN_EXPIRE_MINUTES }}" >> .env
+        echo "MONGO_USERNAME=${{ secrets.MONGO_USERNAME }}" >> .env
+        echo "MONGO_PASSWORD=${{ secrets.MONGO_PASSWORD }}" >> .env
+        echo "MONGO_DATABASE=${{ secrets.MONGO_DATABASE }}" >> .env
+        echo "MONGO_DB=managia" >> .env
+        echo "NODE_ENV=dev" >> .env
+        echo "MONGO_HOST=mongodb" >> .env
+        echo "MONGO_PORT=27017" >> .env
+        echo "MAILGUN_API_KEY=${{ secrets.MAILGUN_API_KEY }}" >> .env
+
+    - name: Build the Docker image
+      run: docker compose --file docker-compose.test.yml up --build -d
+
+    - name: Wait for 60 seconds
+      run: sleep 60
+
+    # Vérification que les trois conteneurs sont encore opérationnels
+    - name: Check if all containers are running
+      run: |
+        docker ps
+        # Vérification spécifique pour chaque conteneur (mongodb, fastapi, react)
+        if ! docker ps | grep -q "mongodb"; then
+          echo "MongoDB container is not running"
+          exit 1
+        fi
+        if ! docker ps | grep -q "api"; then
+          echo "FastAPI container is not running"
+          exit 1
+        fi
+        if ! docker ps | grep -q "react"; then
+          echo "React container is not running"
+          exit 1
+        fi
