@@ -18,7 +18,7 @@ Génération de contenu :
 - [`ShadCn/ui`](https://github.com/shadcn-ui/ui)
 
 ## Installation et démarrage (Développement local) :
-- Clonez le dépôt : git clone `https://github.com/managia-website`
+- Clonez le dépôt : git clone `https://github.com/AI-Education-Suite`
 
 - Installez les dépendances :`npm install`
 

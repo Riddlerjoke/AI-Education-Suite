@@ -32,7 +32,7 @@ L'organisation est pensée pour faciliter la scalabilité et la séparation des 
 ### Installation et démarrage (Développement local) :
 
 1. Clonez le dépôt :  
-   git clone `https://github.com/managia-website`
+   git clone `https://github.com/AI-Education-Suite`
 
 2. Créez et activez un environnement virtuel :
    ```bash
