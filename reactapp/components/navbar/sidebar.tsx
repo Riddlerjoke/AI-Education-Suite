@@ -4,7 +4,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { Montserrat } from "next/font/google";
 import { cn } from "@/lib/utils";
-import { Code, Files, LayoutDashboardIcon, MessageSquare, Settings, Clapperboard, Camera } from "lucide-react";
+import { ServerCog, Files, LayoutDashboardIcon, MessageSquare, Settings, Clapperboard, Camera } from "lucide-react";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 
@@ -23,12 +23,12 @@ const routes = [
         icon: MessageSquare,
         color: "text-violet-500",
     },
-    // {
-    //     label: "Code Generator",
-    //     href: "/codegenerator",
-    //     icon: Code,
-    //     color: "text-green-500",
-    // },
+    {
+        label: "ML Tools",
+        href: "/mltools",
+        icon: ServerCog,
+        color: "text-green-500",
+    },
     {
         label: "Image Generator",
         href: "/imagegenerator",

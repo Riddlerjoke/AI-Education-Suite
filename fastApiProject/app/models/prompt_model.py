@@ -40,7 +40,7 @@ class PromptDisplay(PromptBase):
     message: Optional[str]
     user_prompt: str
     generated_response: str
-    model_used: str
+    modelused: str
     page: str
     image: Optional[str] = None
     image_name: Optional[str] = None
@@ -63,14 +63,14 @@ class PromptDisplay(PromptBase):
     class Config:
         arbitrary_types_allowed = True
         json_encoders = {ObjectId: str}
-        schema_extra = {
+        json_schema_extra = {
             "example": {
                 "prompt_id": "60f1b3b3f3e3b3b3b3b3b3b3",
                 "text": "Write a short story about a robot learning to cook.",
                 "user_prompt": "Write a short story about a robot learning to cook.",
                 "generated_response": "Once upon a time, there was a robot named RoboChef who wanted to learn how to cook.",
                 "user_email": "johndoe@exemple.com",
-                "model_used": "gpt",
+                "modelused": "gpt",
                 "page": "conversation",
                 "image": "aukgouaphqkgycouagfdluqgifuyakgkqd",
                 "image_name": "image.jpg"
@@ -87,7 +87,7 @@ class PromptCreate(PromptBase):
     user_prompt: str = Field(..., description="The prompt text")
 
     class Config:
-        schema_extra = {
+        json_schema_extra = {
             "example": {
                 "user_prompt": "Write a short story about a robot learning to cook."
             }

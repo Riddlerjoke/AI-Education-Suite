@@ -6,8 +6,7 @@ from fastapi.openapi.utils import get_openapi
 from fastapi.middleware.cors import CORSMiddleware
 from dotenv import load_dotenv
 from app.connector.connectorBDD import MongoAccess
-from app.api.endpoints import users, sessions, prompts, login, documentation, pdf_maker, mails, comments, image, video
-
+from app.api.endpoints import users, sessions, prompts, login, documentation, pdf_maker, mails, comments, image, video, data_operation
 
 
 load_dotenv()
@@ -45,6 +44,8 @@ app.include_router(pdf_maker.router, prefix="/pdf_maker", tags=["pdf_maker"])
 app.include_router(mails.router, prefix="/mails", tags=["mails"])
 app.include_router(image.router, prefix="/image", tags=["image"])
 app.include_router(video.router, prefix="/video", tags=["video"])
+app.include_router(data_operation.router, prefix="/data_operation", tags=["data_operation"])
+
 
 @app.get("/")
 async def root():

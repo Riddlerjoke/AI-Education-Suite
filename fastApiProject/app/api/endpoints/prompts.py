@@ -7,15 +7,14 @@ from app.api.dependencies import get_current_user, check_user_role
 from app.crud.prompt_crud import PromptCRUD
 from app.models.prompt_model import PromptDisplay, PromptUpdate
 
-
-
 router = APIRouter()
+
 
 class PromptServices:
     def __init__(self):
         self.prompt_crud = PromptCRUD()
 
-    async def files(self, file: UploadFile ):
+    async def files(self, file: UploadFile):
         if file:
             images_bytes = await file.read()
             image_base64 = base64.b64encode(images_bytes).decode("utf-8")
@@ -29,7 +28,7 @@ class PromptServices:
             "generated_response": prompt["generated_response"],
             "prompt_id": str(prompt.get("_id", None)),
             "message": None,
-            "model_used": prompt["model_used"],
+            "modelused": prompt["modelused"],
             "page": prompt["page"],
             "image": prompt["image"],
             "image_name": prompt["image_name"]
@@ -58,11 +57,11 @@ prompt_services = PromptServices()
 
 @router.post("/create_prompt/{model_type}", response_model=PromptDisplay, status_code=status.HTTP_201_CREATED)
 async def create_prompt(
-    model_type: str,
-    page: str,
-    user_prompt: Annotated[str, Form()],
-    file: Annotated[UploadFile, None] = None,
-    current_user=Security(get_current_user)
+        model_type: str,
+        page: str,
+        user_prompt: Annotated[str, Form()],
+        file: Annotated[UploadFile, None] = None,
+        current_user=Security(get_current_user)
 ):
     """
     Crée un nouveau prompt et renvoie les détails du prompt créé.
@@ -94,7 +93,7 @@ async def list_prompts_model(model, current_user=Security(get_current_user)):
         List[PromptDisplay]: Une liste des prompts, chacun formaté selon le modèle PromptDisplay.
     """
     check_user_role(current_user, ["SuperAdmin",
-                    "Formateur-int", "Formateur-ext", "Formé"])
+                                   "Formateur-int", "Formateur-ext", "Formé"])
 
     prompts = prompt_services.prompt_crud.get_prompts_by_user_model(current_user.email, model)
     transformed_prompts = []
@@ -128,7 +127,7 @@ async def list_prompts_page(model, page, current_user=Security(get_current_user)
         - Les prompts sont filtrés en fonction de l'email de l'utilisateur, du modèle spécifié et du numéro de page.
     """
     check_user_role(current_user, ["SuperAdmin",
-                    "Formateur-int", "Formateur-ext", "Formé"])
+                                   "Formateur-int", "Formateur-ext", "Formé"])
 
     prompts = prompt_services.prompt_crud.get_prompts_by_user_model_page(
         current_user.email, model, page)
@@ -154,7 +153,7 @@ async def list_prompts_user(current_user=Security(get_current_user)):
     - La liste des prompts sous forme de liste de promptdisplay .
     """
     check_user_role(current_user, ["SuperAdmin",
-                    "Formateur-int", "Formateur-ext", "Formé"])
+                                   "Formateur-int", "Formateur-ext", "Formé"])
     prompts = prompt_services.prompt_crud.get_prompts_by_user(current_user.email)
     transformed_prompts = []
 
@@ -183,7 +182,7 @@ async def get_prompt(prompt_id: str, current_user=Security(get_current_user)):
         HTTPException: Si le prompt n'est pas trouvé.
     """
     check_user_role(current_user, ["SuperAdmin",
-                    "Formateur-int", "Formateur-ext", "Formé"])
+                                   "Formateur-int", "Formateur-ext", "Formé"])
 
     prompt = prompt_services.prompt_crud.get_prompt(prompt_id)
     if prompt is None:
@@ -213,7 +212,7 @@ async def update_prompt(prompt_id: str, prompt_update: PromptUpdate, current_use
         HTTPException: Si le prompt à mettre à jour n'est pas trouvé.
     """
     check_user_role(current_user, ["SuperAdmin",
-                    "Formateur-int", "Formateur-ext", "Formé"])
+                                   "Formateur-int", "Formateur-ext", "Formé"])
 
     updated_result = prompt_services.prompt_crud.update_prompt_by_id(prompt_id, prompt_update)
 

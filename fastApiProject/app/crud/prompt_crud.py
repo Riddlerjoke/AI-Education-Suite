@@ -75,7 +75,7 @@ class PromptCRUD:
             str: La réponse générée par l'assistant IA.
         """
         user_prompt = prompt_data["user_prompt"]
-        historique = list(self.db.find({"user_email": user_email, "model_used": "gpt", "page": page}, {
+        historique = list(self.db.find({"user_email": user_email, "modelused": "gpt", "page": page}, {
                           "generated_response": 1, "user_prompt": 1,  "_id": 0}))
         messages = [{"role": "system",
                      "content": "This is a conversation with an AI assistant. The AI assistant is helpful, creative, clever, and very friendly."}]
@@ -122,7 +122,7 @@ class PromptCRUD:
                 "user_email": prompt_data["user_email"],
                 "user_prompt": prompt_data["user_prompt"],
                 "generated_response": generated_content,
-                "model_used": "gpt",
+                "modelused": "gpt",
                 "page": page,
                 "image": prompt_data["image"],
                 "image_name": prompt_data["image_name"]
@@ -132,7 +132,7 @@ class PromptCRUD:
                 "user_email": prompt_data["user_email"],
                 "user_prompt": prompt_data["user_prompt"],
                 "generated_response": generated_content,
-                "model_used": "gpt",
+                "modelused": "gpt",
                 "page": page,
                 "image": None,
                 "image_name": None    
@@ -146,7 +146,7 @@ class PromptCRUD:
             "user_prompt": prompt_data["user_prompt"],
             "generated_response": generated_content,
             "user_email": prompt_data["user_email"],
-            "model_used": "gpt",
+            "modelused": "gpt",
             "page": page,
             "image": document["image"],
             "image_name": document["image_name"]
@@ -168,7 +168,7 @@ class PromptCRUD:
 
         user_prompt = prompt_data["user_prompt"]
 
-        history_documents = list(self.db.find({"user_email": user_email, "model_used": "gemini-1.5-pro", "page": page}, {
+        history_documents = list(self.db.find({"user_email": user_email, "modelused": "gemini-1.5-pro", "page": page}, {
                                  "generated_response": 1, "user_prompt": 1,  "_id": 0}))
         history = []
         for doc in history_documents:
@@ -192,7 +192,7 @@ class PromptCRUD:
                 "user_email": prompt_data["user_email"],
                 "user_prompt": user_prompt,
                 "generated_response": generated_response,
-                "model_used": "gemini",
+                "modelused": "gemini",
                 "page": page,
                 "image":prompt_data["image"],
                 "image_name": prompt_data["image_name"]
@@ -202,7 +202,7 @@ class PromptCRUD:
                 "user_email": prompt_data["user_email"],
                 "user_prompt": user_prompt,
                 "generated_response": generated_response,
-                "model_used": "gemini",
+                "modelused": "gemini",
                 "page": page,
                 "image": None,
                 "image_name": None
@@ -215,7 +215,7 @@ class PromptCRUD:
             "user_prompt": user_prompt,
             "generated_response": generated_response,
             "user_email": prompt_data["user_email"],
-            "model_used": "gemini",
+            "modelused": "gemini",
             "page": page,
             "image":document["image"],
             "image_name": document["image_name"]
@@ -277,7 +277,7 @@ class PromptCRUD:
             "user_email": prompt_data["user_email"],
             "user_prompt": user_prompt,
             "generated_response": response.choices[0].message.content,
-            "model_used": "mistral",
+            "modelused": "mistral",
             "page": page,
             "image": prompt_data.get("image"),
             "image_name": prompt_data.get("image_name")
@@ -294,7 +294,7 @@ class PromptCRUD:
             "user_prompt": user_prompt,
             "generated_response": response.choices[0].message.content,
             "user_email": prompt_data["user_email"],
-            "model_used": "mistral",
+            "modelused": "mistral",
             "page": page,
             "image": document.get("image"),
             "image_name": document.get("image_name")
@@ -356,7 +356,7 @@ class PromptCRUD:
             List[dict]: Une liste de dictionnaires représentant les prompts créés par l'utilisateur.
 
         """
-        return list(self.db.find({"user_email": user_email, "model_used": model}))
+        return list(self.db.find({"user_email": user_email, "modelused": model}))
 
     def get_prompts_by_user_model_page(self, user_email: str, model, page) -> List[dict]:
         """
@@ -371,7 +371,7 @@ class PromptCRUD:
             List[dict]: Une liste de dictionnaires contenant les prompts correspondant aux critères spécifiés.
         """
 
-        return list(self.db.find({"user_email": user_email, "model_used": model, "page": page}))
+        return list(self.db.find({"user_email": user_email, "modelused": model, "page": page}))
 
     def get_prompt_by_id_and_user(self, prompt_id: str, user_id: str) -> dict:
         """

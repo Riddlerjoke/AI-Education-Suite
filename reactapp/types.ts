@@ -216,3 +216,26 @@ export interface FormattedPromptsProps {
 export interface FormatedPromptsProps {
     messages: Message[];
 }
+
+export interface Notebook {
+  cells: NotebookCell[];
+  metadata: Record<string, any>;
+  nbformat: number;
+  nbformat_minor: number;
+}
+
+export interface NotebookCell {
+  cell_type: 'markdown' | 'code';
+  source: string[];
+  outputs?: CellOutput[];
+  metadata: Record<string, any>;
+}
+
+export interface CellOutput {
+  output_type: string;
+  [key: string]: any;
+}
+
+export interface NotebookComponentProps {
+  notebookUrl?: string;
+}

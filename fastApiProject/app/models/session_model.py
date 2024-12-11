@@ -30,13 +30,15 @@ class SessionBase(BaseModel):
     def set_default_end_time(cls, v, values):
         return v or (values['start_time'] + timedelta(hours=2) if 'start_time' in values else None)
 
-    @validator('emails', each_item=True)
-    def validate_emails(cls, v):
-        try:
-            valid = validate_email(v)
-            return valid.email
-        except EmailNotValidError as e:
-            raise ValueError(f'Invalid email: {e}')
+    @validator('emails', each_item=True, pre=True)
+    def validate_email(cls, value):
+        """
+        Valide que l'adresse email est dans un format correct.
+        """
+        email_regex = r"^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$"
+        if not re.match(email_regex, value):
+            raise ValueError(f"{value} n'est pas une adresse email valide")
+        return value
 
 
 class SessionDisplay(SessionBase):
@@ -100,7 +102,7 @@ class SessionUpdate(BaseModel):
         """
         Valide que l'adresse email est dans un format correct.
         """
-        email_regex = r"[^@]+@[^@]+\.[^@]+"
+        email_regex = r"^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$"
         if not re.match(email_regex, value):
             raise ValueError(f"{value} n'est pas une adresse email valide")
         return value

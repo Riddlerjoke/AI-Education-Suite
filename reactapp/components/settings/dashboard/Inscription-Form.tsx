@@ -37,7 +37,7 @@ const CreateSessionForm = () => {
         const roles = data.roles;
 
         // Assurez-vous que l'utilisateur est formateur-int, formateur-ext ou superadmin
-        if (roles.includes('formateur-int') || roles.includes('formateur-ext') || roles.includes('SuperAdmin')) {
+        if (roles.includes('Formateur-int') || roles.includes('Formateur-ext') || roles.includes('SuperAdmin')) {
           setInstructorName(data.email); // Remplit automatiquement l'email du formateur
         } else {
           setError("Vous n'avez pas les permissions nécessaires pour créer une session.");

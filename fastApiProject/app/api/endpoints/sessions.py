@@ -3,13 +3,12 @@ from datetime import datetime, timedelta
 
 from email_validator import EmailNotValidError
 from fastapi import APIRouter, HTTPException, Security, Form, UploadFile, File
-from pydantic.v1 import  validate_email
+from pydantic.v1 import validate_email
 import pandas as pd
 
 from app.api.dependencies import get_current_user, check_user_role
 from app.models.session_model import SessionBase, SessionDisplay, SessionUpdate
 from app.crud.sessions_crud import SessionCRUD
-
 
 
 router = APIRouter()
@@ -133,7 +132,8 @@ async def delete_session(session_id: str, current_user=Security(get_current_user
     Returns:
         dict : Confirmation de la suppression.
     """
-    check_user_role(current_user, ["SuperAdmin"])
+    check_user_role(current_user, ["SuperAdmin",
+                    "Formateur-int", "Formateur-ext"])
     delete = session_crud.delete_session(session_id)
     return delete
 

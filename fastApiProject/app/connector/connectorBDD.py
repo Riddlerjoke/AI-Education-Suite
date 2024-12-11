@@ -72,6 +72,10 @@ class MongoAccess:
     def video_collection(self) -> Collection:
         return self.db["video_db"]
 
+    @property
+    def data_cleaning_db(self) -> Collection:
+        return self.db["data_cleaning_db"]
+
     def initialize_db(self):
         """
         Initialise la base de données en créant les collections nécessaires si elles n'existent pas.
@@ -82,7 +86,7 @@ class MongoAccess:
         sont créés après la création de la collection.
         """
         required_collections = ['users_db', 'sessions_db', 'prompt_db',
-                                "documentation_db", "commentaire_db", "image_db", "video_db"]
+                                "documentation_db", "commentaire_db", "image_db", "video_db", "data_cleaning_db"]
         existing_collections = self.db.list_collection_names()
 
         for collection_name in required_collections:
